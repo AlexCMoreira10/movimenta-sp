@@ -1,0 +1,21 @@
+<body>
+    <h1>
+        Pagina sobre o projeto
+    </h1>
+    {{#if dados.length}}
+        <ul>
+            {{#each dados}}
+                <li>
+                    
+                    <strong>Letreiro: </strong> {{lt}} - {{tl}} <br>
+                    <strong>Sentido: </strong> {{tp}} <br>
+                    <strong>Terminal Destino:</strong> {{ts}} <br>
+                    <strong> Indica se uma linha opera no modo circular: </strong> {{lc}} <br>
+                    <hr>
+                </li>
+            {{/each}}
+        </ul>
+    {{else}}
+        <p>Nenhum resultado encontrado.</p>
+    {{/if}}
+</body>
