@@ -90,10 +90,6 @@ app.post('/cadastrar', async function(req, res) {
   } catch (error) {
     res.status(500).send("Erro de servidor!")
   }
-
-
-
-
 })
 
 //aqui 
@@ -147,7 +143,6 @@ app.post('/buscar_termo_sentido', async (req, res) => {
 //posicao da linha 
 app.get('/posicao_linha', async (req, res) => {
     const codigoLinha = req.query.linha;
-
     try {
         const response = await axiosInstance.get(`/Posicao/Linha?codigoLinha=${codigoLinha}`);//
         res.render('Teste', { dados: response.data });
@@ -162,3 +157,4 @@ app.listen(PORTA, async () => {
     //console.log('Servidor rodando em http://localhost:'+PORTA);
 });
 
+//fazer um registro de numero ou nome handlebars, fazer um servidor index.js que esteja salvo no banco de dados 
