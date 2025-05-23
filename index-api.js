@@ -7,6 +7,9 @@ import { engine } from 'express-handlebars';
 import axios from 'axios';  //BASE PARA A COMUNICAÇÃO COM API HTTP, GET, POST,
 import Cadastro from './models/cadastro.js';
 
+//IMPORT DO BANCO DE DADOS
+import Onibus from './models/onibus.js'
+
 const app = express();
 const __dirname = path.resolve();
 const PORTA = process.env.PORT || 4200;
@@ -107,6 +110,19 @@ app.get('/posicao_veiculos', async (req, res) => {
         res.status(500).json({ erro: 'Erro ao buscar dados de posição dos veículos.' });
     }
 });
+//Teste Demonstrativo E vamos melhorar no futuro;
+app.get('/Capelinha', function(req, res) {
+    Onibus.findAll({
+        raw: true, //Pesquisa e me fala mais tarde
+        attributes: ['codigo_linha', 'numero_linha'],
+        order: [['idonibus', 'DESC']]
+    }).then(function(onibus) {
+        res.render('ListaDeOnibus', { onibus: onibus });
+    }).catch(function(erro) {
+        res.send("Erro ao carregar os ônibus: " + erro);
+    });
+});
+
 
 app.post('/buscar_termo', async (req,res) => {
     const buscar_termo = req.body.buscar_termo;
