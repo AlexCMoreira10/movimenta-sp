@@ -1,5 +1,5 @@
 import db from './db.js';
-import Onibus from './onibus.js';
+import Onibus from './Onibus.js';
 import Rota from './Rota.js';
 
 const OnibusRotasAssociadas = db.sequelize.define('onibus_rotas_associadas', {

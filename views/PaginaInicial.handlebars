@@ -141,11 +141,36 @@
             </ul>
         </div>
     </div>
-
-    <!-- Conteúdo principal -->
+    <!-- barra de pesquisa -->
+        <div class="container my-5">
+        <div class="search-section">
+            <P>PASSANDO POSICAO LAT E LON</P>
+            <!-- cards de informação -->
+            <form action="/pesquisar_linha" method="GET" class="search-box">
+                <input type="text" name="linha" placeholder="Digite o número da linha...">
+                <i class="fas fa-search"></i>
+            </form>
+        </div>
     <div class="container my-5">
         <div class="row g-4">
-            <!-- Card 1 -->
+            {{#if dados.length}}
+                <ul>
+                    {{#each dados}}
+                        <li>
+                            
+                            <strong>Letreiro: </strong> {{lt}} - {{tl}} <br>
+                            <strong>Sentido: </strong> {{tp}} <br>
+                            <strong>Terminal Destino:</strong> {{ts}} <br>
+                            <strong> Indica se uma linha opera no modo circular: </strong> {{lc}} <br>
+                            <hr>
+                        </li>
+                    {{/each}}
+                </ul>
+            {{else}}
+                <p>Nenhum resultado encontrado.</p>
+            {{/if}}
+
+            <!-- Card 1 
             <div class="col-md-6">
                 <div class="card">
                     <img src="https://via.placeholder.com/150" class="card-img-top" alt="Mapa">
@@ -158,7 +183,7 @@
                         <a href="rotas.html" class="btn btn-primary">Ver Rotas</a>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Card 2 -->
             <div class="col-md-6">
@@ -188,25 +213,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="container my-5">
-        <div class="search-section">
-            <P>PASSANDO POSICAO LAT E LON</P>
-            <!-- Comentário: Formulário estilizado com foco visual moderno -->
-            <form action="/posicao_veiculos" method="GET" class="search-box">
-                <input type="text" name="linha" placeholder="Digite o número da linha...">
-                <i class="fas fa-search"></i>
-            </form>
-        </div>
-            <div class="container my-5">
-        <div class="search-section">
-            <P>TERMOS + POS LINHA + LAT</P>
-            <!-- Comentário: Formulário estilizado com foco visual moderno -->
-            <form action="/posicao_linha" method="GET" class="search-box">
-                <input type="text" name="linha" placeholder="Digite o número da linha...">
-                <i class="fas fa-search"></i>
-            </form>
-            <div>
     </div>
 </body>
 </html>

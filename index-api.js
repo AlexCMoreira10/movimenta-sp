@@ -5,10 +5,11 @@ import { engine } from 'express-handlebars';
 //esta é a forma de usar import handlebars
 //import Post from './models/Post.js'
 import axios from 'axios';  //BASE PARA A COMUNICAÇÃO COM API HTTP, GET, POST,
-import Cadastro from './models/cadastro.js';
+
 
 //IMPORT DO BANCO DE DADOS
-import Onibus from './models/onibus.js'
+import Onibus from './models/Onibus.js'
+import Cadastro from './models/Cadastro.js';
 
 const app = express();
 const __dirname = path.resolve();
@@ -60,17 +61,27 @@ app.get('/', function(req, res ) {
 })
 
 
-app.post('/pesquisar_linha', async (req, res) => {
-    const linha = req.body.linha;
+app.get('/pesquisar_linha', async function (req, res) {
+    const linha = req.requery.linha ;
+    try  {
+      const onibus = await Onibus.findOne({
+        where: {numero_linha: linha}
+      })
+      console.log(onibus);
+    } catch( error ) { 
+      console.log('Erro: ', error);
+    }
+  })
+/*
     try {
       const response = await axiosInstance.get(`/Linha/Buscar?termosBusca=${linha}`);
-      //res.send(`<pre>${JSON.stringify(response.data, null, 2)}</pre>`);
-      res.render('Teste', {dados: response.data})
+      res.send(`<pre>${JSON.stringify(response.data, null, 2)}</pre>`);
+      //res.redirect('/PaginaInicial', {dados: response.data})
     } catch (error) {
       console.error('Erro ao buscar linha:', error.message);
       res.status(500).send('Erro ao buscar a linha de ônibus.');
     }
-  });
+  });*/
 
 app.post('/cadastrar', async function(req, res) {
   const tel = req.body.telefone;
@@ -89,11 +100,21 @@ app.post('/cadastrar', async function(req, res) {
     } else {
       console.log('Usuario já cadastrado, Logando...')
     }
-    res.render('PaginaInicial') //AQUI NO FUTURO TEM QUE SE TORNAR UM ROTA REDIRECT POST PARA PAGINA INICIAL, COM UM RETUNR ASSIM O APP FICA ROBUSTO E QUEBRA MENOS
+    //res.render('/PaginaInicial') //AQUI NO FUTURO TEM QUE SE TORNAR UM ROTA REDIRECT POST PARA PAGINA INICIAL, COM UM RETUNR ASSIM O APP FICA ROBUSTO E QUEBRA MENOS
+    res.redirect('/PaginaInicial')
   } catch (error) {
-    res.status(500).send("Erro de servidor!")
+    console.log(error)
+    res.status(500).send("Erro de servidor!", error)
   }
 })
+
+//REDIRECT
+app.get('/PaginaInicial', function(req, res){
+  res.render('PaginaInicial')//, {raw: true, dados: response.data})
+  //res.send(`<h1> SEM ERROR </H1>`)
+  //console.log('ENTRANDO AQUIII!!');
+  //res.render('PaginaInicial')
+});
 
 //aqui 
 app.get('/Rota', function(req, res) {
