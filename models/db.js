@@ -1,6 +1,6 @@
 import {Sequelize} from "sequelize"
 
-const sequelize = new Sequelize("Movimenta_sp", "root", '', {
+const sequelize = new Sequelize('Movimenta_sp', 'root', '', {
   //cadastro nome, root local e o lugar vazio a senha de acesso
     host: "localhost",
     dialect: "mysql"
