@@ -89,7 +89,7 @@ app.post('/cadastrar', async function(req, res) {
     } else {
       console.log('Usuario já cadastrado, Logando...')
     }
-    res.render('PaginaInicial')
+    res.render('PaginaInicial') //AQUI NO FUTURO TEM QUE SE TORNAR UM ROTA REDIRECT POST PARA PAGINA INICIAL, COM UM RETUNR ASSIM O APP FICA ROBUSTO E QUEBRA MENOS
   } catch (error) {
     res.status(500).send("Erro de servidor!")
   }
