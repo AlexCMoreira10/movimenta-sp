@@ -130,6 +130,12 @@
                     <a class="nav-link active" href="Home.html">Início</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link active" href="/Relatar">Relatar Problema</a>
+                </li>     
+                <li class="nav-item">
+                    <a class="nav-link active" href="/RotasDoBanco">Lista Onibus Capelinha</a>
+                </li>                           
+                <li class="nav-item">
                     <a class="nav-link" href="PaginaRota.html">Rotas de Ônibus</a>
                 </li>
                 <li class="nav-item">
@@ -144,9 +150,9 @@
     <!-- barra de pesquisa -->
         <div class="container my-5">
         <div class="search-section">
-            <P>PASSANDO POSICAO LAT E LON</P>
+            <P>Pesquisa da linha do onibus</P>
             <!-- cards de informação -->
-            <form action="/pesquisar_linha" method="GET" class="search-box">
+            <form action="/pesquisar_linha" method="post" class="search-box">
                 <input type="text" name="linha" placeholder="Digite o número da linha...">
                 <i class="fas fa-search"></i>
             </form>

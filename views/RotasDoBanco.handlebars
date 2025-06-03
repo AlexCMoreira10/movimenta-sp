@@ -1,0 +1,14 @@
+<h2 style="font-family: Arial, sans-serif; font-size: 24px; color: #333;">Lista de Rotas</h2>
+
+{{#if rotas.length}}
+  <ul style="list-style: none; padding: 0;">
+    {{#each rotas}}
+      <li style="background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+        <p style="margin: 0; font-size: 18px; color: #2c3e50;"><strong>Nome da Rota:</strong> {{nome_rota}}</p>
+        <p style="margin: 8px 0 0; font-size: 16px; color: #555;"><strong>Descrição:</strong> {{descricao}}</p>
+      </li>
+    {{/each}}
+  </ul>
+{{else}}
+  <p style="font-size: 16px; color: #888;">Nenhuma rota encontrada.</p>
+{{/if}}

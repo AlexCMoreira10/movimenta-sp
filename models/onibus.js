@@ -1,6 +1,6 @@
 import db from './db.js';
 
-const Onibus = db.sequelize.define('onibus', {
+const Onibus = db.sequelize.define('Onibus', {
     idonibus: {
         type: db.Sequelize.INTEGER,
         primaryKey: true,
