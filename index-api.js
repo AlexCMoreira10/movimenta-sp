@@ -10,7 +10,8 @@ import axios from 'axios';  //BASE PARA A COMUNICAÇÃO COM API HTTP, GET, POST,
 //IMPORT DO BANCO DE DADOS
 import Onibus from './models/Onibus.js'
 import Cadastro from './models/Cadastro.js';
-
+import OnibusRotasAssociadas from './models/OnibusRotasAssociadas.js';
+import Rota from './models/Rota.js'
 const app = express();
 const __dirname = path.resolve();
 const PORTA = process.env.PORT || 4200;
@@ -31,12 +32,16 @@ const axiosInstance = axios.create({
 // Usa cookies de sessão para manter a autenticação ativa
 import { CookieJar } from 'tough-cookie';
 import { wrapper } from 'axios-cookiejar-support';
+import { setDefaultAutoSelectFamilyAttemptTimeout } from 'net';
+
+
 
 const cookieJar = new CookieJar();
 
 wrapper(axiosInstance);
 axiosInstance.defaults.jar = cookieJar;
 
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //aqui precisamos iniciar a autenticação antes de iniciar o servidor
@@ -61,27 +66,19 @@ app.get('/', function(req, res ) {
 })
 
 
-app.get('/pesquisar_linha', async function (req, res) {
-    const linha = req.requery.linha ;
-    try  {
-      const onibus = await Onibus.findOne({
-        where: {numero_linha: linha}
-      })
-      console.log(onibus);
-    } catch( error ) { 
-      console.log('Erro: ', error);
-    }
-  })
-/*
-    try {
-      const response = await axiosInstance.get(`/Linha/Buscar?termosBusca=${linha}`);
-      res.send(`<pre>${JSON.stringify(response.data, null, 2)}</pre>`);
-      //res.redirect('/PaginaInicial', {dados: response.data})
-    } catch (error) {
-      console.error('Erro ao buscar linha:', error.message);
-      res.status(500).send('Erro ao buscar a linha de ônibus.');
-    }
-  });*/
+app.post('/pesquisar_linha', async function (req, res) {
+  const linha = req.body.linha;
+  //console.log("Linha recebida:", linha);
+  try {
+    const response = await axiosInstance.get(`/Linha/Buscar?termosBusca=${linha}`);
+    const dados = response.data;
+    res.render('PaginaInicial', {dados});
+   //res.send(`<pre>${JSON.stringify(response.data, null, 2)}</pre>`);
+  } catch (error) {
+    console.error('Erro ao buscar linha:', error.message);
+    res.status(500).send('Erro ao buscar a linha de ônibus.');
+  }
+});
 
 app.post('/cadastrar', async function(req, res) {
   const tel = req.body.telefone;
@@ -144,6 +141,23 @@ app.get('/Capelinha', function(req, res) {
     });
 });
 
+app.get('/Relatar', function(req,res){
+   res.render('Relatar');
+});
+
+app.get('/RotasDoBanco', async function (req,res){ 
+ Rota.findAll({
+    raw: true,
+    attributes: ['nome_rota', 'descricao'],
+    order: [['idrota', 'ASC']] // opcional, você pode mudar para DESC ou outro campo
+  })
+  .then(function(rotas) {
+    res.render('RotasDoBanco', { rotas: rotas });
+  })
+  .catch(function(erro) {
+    res.send("Erro ao carregar rotas: " + erro);
+  });
+});
 
 app.post('/buscar_termo', async (req,res) => {
     const buscar_termo = req.body.buscar_termo;

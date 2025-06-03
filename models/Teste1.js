@@ -27,3 +27,4 @@ teste_db.sequelize.sync().then(() => {
     console.log('Servidor rodando em http://localhost:8081');
   });
 });
+///rever esse arquivo
