@@ -11,6 +11,6 @@ const Cadastro = db.sequelize.define("Cadastro", {
   }
 });
 
-//Cadastro.sync({force: true});
+Cadastro.sync({});
 
 export default Cadastro

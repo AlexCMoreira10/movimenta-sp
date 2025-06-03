@@ -34,8 +34,8 @@ const OnibusRotasAssociadas = db.sequelize.define('onibus_rotas_associadas', {
 });
 
 Onibus.sync()
-//Rota.sync({force:true})
-//OnibusRotasAssociadas.sync({force:true})
+Rota.sync()
+OnibusRotasAssociadas.sync()
 
 export default OnibusRotasAssociadas;
 
