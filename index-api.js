@@ -202,6 +202,26 @@ app.get('/posicao_linha', async (req, res) => {
         res.status(500).send('Erro ao buscar a posição da linha. Tente novamente.');
     }
 });
+app.get('/teste', function(req,res){
+  res.render('Teste')
+});
+
+app.get('/hora_saida', async function(req, res) {
+  const codigoLinha = req.query.codigoLinha;
+
+  if (!codigoLinha) {
+    return res.status(400).send("Parâmetro 'codigoLinha' é obrigatório.");
+  }
+
+  try {
+    const response = await axiosInstance.get(`/Posicao/Linha?codigoLinha=${codigoLinha}`);
+    const dados = response.data;
+    res.render('HoraSaida', { dados });
+  } catch (erro) {
+    console.error('Erro ao consultar a API:', erro.message);
+    res.status(500).send('<h1>Erro ao consultar API</h1><br>' + erro.message);
+  }
+});
 
 app.listen(PORTA, async () => {
     await autenticar(); // Autentica assim que o servidor iniciar

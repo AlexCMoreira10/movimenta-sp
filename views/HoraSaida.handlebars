@@ -1,0 +1,18 @@
+<h2>Horário da Última Atualização: {{dados.hr}}</h2>
+
+{{#if dados.vs.length}}
+  <ul>
+    {{#each dados.vs}}
+      <li>
+        <strong>Prefixo:</strong> {{p}} <br>
+        <strong>Está em operação:</strong> {{#if a}}Sim{{else}}Não{{/if}} <br>
+        <strong>Última atualização:</strong> {{ta}} <br>
+        <strong>Latitude:</strong> {{py}} <br>
+        <strong>Longitude:</strong> {{px}} <br>
+        <hr>
+      </li>
+    {{/each}}
+  </ul>
+{{else}}
+  <p>Nenhum veículo encontrado para esta linha.</p>
+{{/if}}

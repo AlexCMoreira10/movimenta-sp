@@ -147,34 +147,45 @@
             </ul>
         </div>
     </div>
-    <!-- barra de pesquisa -->
-        <div class="container my-5">
-        <div class="search-section">
-            <P>Pesquisa da linha do onibus</P>
-            <!-- cards de informação -->
-            <form action="/pesquisar_linha" method="post" class="search-box">
-                <input type="text" name="linha" placeholder="Digite o número da linha...">
-                <i class="fas fa-search"></i>
-            </form>
+<!-- barra de pesquisa -->
+<div class="container my-5">
+    <div class="search-section">
+        <p>Pesquisa da linha do ônibus</p>
+        <form action="/pesquisar_linha" method="post" class="search-box">
+            <input type="text" name="linha" placeholder="Digite o número da linha...">
+            <i class="fas fa-search"></i>
+        </form>
+    </div>
+</div>
+<!-- Resultados da busca (cards) -->
+{{#if dados.length}}
+<div class="container my-5">
+    <div class="row g-4">
+        {{#each dados}}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Linha {{lt}} - {{tl}} <i class="fas fa-bus"></i></h5>
+                    <p class="card-text">
+                        <strong>Código CL:</strong> {{cl}}<br>
+                        <strong>Sentido:</strong> {{tp}}<br>
+                        <strong>Destino:</strong> {{ts}}<br>
+                        <strong>Operação Circular:</strong> {{#if lc}}Sim{{else}}Não{{/if}}
+                    </p>
+                </div>
+                <div class="card-footer text-end">
+                    <a href="/linha/{{cl}}" class="btn btn-primary">Detalhes</a>
+                </div>
+            </div>
         </div>
-    <div class="container my-5">
-        <div class="row g-4">
-            {{#if dados.length}}
-                <ul>
-                    {{#each dados}}
-                        <li>
-                            
-                            <strong>Letreiro: </strong> {{lt}} - {{tl}} <br>
-                            <strong>Sentido: </strong> {{tp}} <br>
-                            <strong>Terminal Destino:</strong> {{ts}} <br>
-                            <strong> Indica se uma linha opera no modo circular: </strong> {{lc}} <br>
-                            <hr>
-                        </li>
-                    {{/each}}
-                </ul>
-            {{else}}
-                <p>Nenhum resultado encontrado.</p>
-            {{/if}}
+        {{/each}}
+    </div>
+</div>
+{{else}}
+<div class="container my-5 text-center">
+    <p>Nenhum resultado encontrado.</p>
+</div>
+{{/if}}
 
             <!-- Card 1 
             <div class="col-md-6">
