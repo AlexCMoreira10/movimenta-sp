@@ -12,6 +12,8 @@ import Onibus from './models/Onibus.js'
 import Cadastro from './models/Cadastro.js';
 import OnibusRotasAssociadas from './models/OnibusRotasAssociadas.js';
 import Rota from './models/Rota.js'
+import Relatar from  './models/Relatar.js'
+
 const app = express();
 const __dirname = path.resolve();
 const PORTA = process.env.PORT || 4200;
@@ -206,8 +208,8 @@ app.get('/teste', function(req,res){
   res.render('Teste')
 });
 
-app.get('/hora_saida', async function(req, res) {
-  const codigoLinha = req.query.codigoLinha;
+app.get('/hora_saida/:codigoLinha', async function(req, res) {
+  const codigoLinha = req.params.codigoLinha;
 
   if (!codigoLinha) {
     return res.status(400).send("Parâmetro 'codigoLinha' é obrigatório.");
@@ -223,9 +225,24 @@ app.get('/hora_saida', async function(req, res) {
   }
 });
 
+app.post('/relatar_problema', async function(req, res){
+   const { linha,tipo,descricao } = req.body;
+
+  try {
+    await Relatar.create({ linha,tipo, descricao });
+      //res.json({ success: true, message: "Problema registrado com sucesso!" });
+      res.redirect('PaginaInicial')
+  }
+  catch(error){
+    console.log(error)
+    res.status(500).send('Oh não! erro de servidor', error)
+  }
+});
+
 app.listen(PORTA, async () => {
     await autenticar(); // Autentica assim que o servidor iniciar
     //console.log('Servidor rodando em http://localhost:'+PORTA);
 });
 
 //fazer um registro de numero ou nome handlebars, fazer um servidor index.js que esteja salvo no banco de dados 
+

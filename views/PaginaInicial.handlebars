@@ -174,7 +174,7 @@
                     </p>
                 </div>
                 <div class="card-footer text-end">
-                    <a href="/linha/{{cl}}" class="btn btn-primary">Detalhes</a>
+                    <a href="/hora_saida/{{cl}}" class="btn btn-primary">Detalhes</a>
                 </div>
             </div>
         </div>
@@ -182,8 +182,25 @@
     </div>
 </div>
 {{else}}
-<div class="container my-5 text-center">
-    <p>Nenhum resultado encontrado.</p>
+<div class="container my-5">
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Linha - 6007-10 <i class="fas fa-bus"></i></h5>
+                    <p class="card-text">
+                        <strong>Código CL:</strong> {{cl}}<br>
+                        <strong>Sentido:</strong> Terminal Santo Amaro<br>
+                        <strong>Destino:</strong> Terminal Capelinha <br>
+                        <strong>Operação Circular:</strong> não <br>
+                    </p>
+                </div>
+                <div class="card-footer text-end">
+                    <a href="/linha/{{cl}}" class="btn btn-primary">Detalhes</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {{/if}}
 
