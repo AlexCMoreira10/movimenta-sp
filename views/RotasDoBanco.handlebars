@@ -1,14 +1,32 @@
-<h2 style="font-family: Arial, sans-serif; font-size: 24px; color: #333;">Lista de Rotas</h2>
+<style>
+  /* Estilo adicional para o dark mode */
+  .dark-mode .bg-body-secondary {
+    background-color: #2c2f33 !important;
+    border-color: #444 !important;
+  }
 
-{{#if rotas.length}}
-  <ul style="list-style: none; padding: 0;">
-    {{#each rotas}}
-      <li style="background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-        <p style="margin: 0; font-size: 18px; color: #2c3e50;"><strong>Nome da Rota:</strong> {{nome_rota}}</p>
-        <p style="margin: 8px 0 0; font-size: 16px; color: #555;"><strong>Descrição:</strong> {{descricao}}</p>
-      </li>
-    {{/each}}
-  </ul>
-{{else}}
-  <p style="font-size: 16px; color: #888;">Nenhuma rota encontrada.</p>
-{{/if}}
+  .dark-mode .text-light-emphasis {
+    color: #ccc !important;
+  }
+</style>
+
+<div class="container my-4">
+  <h2 class="text-center mb-4">Lista de Rotas</h2>
+
+  {{#if rotas.length}}
+    <ul class="list-unstyled">
+      {{#each rotas}}
+        <li class="bg-body-secondary border rounded p-3 mb-3 shadow-sm">
+          <p class="mb-1 fs-5 fw-semibold text-light-emphasis">
+            <strong>Nome da Rota:</strong> {{nome_rota}}
+          </p>
+          <p class="mb-0 text-light-emphasis">
+            <strong>Descrição:</strong> {{descricao}}
+          </p>
+        </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <p class="text-muted text-center">Nenhuma rota encontrada.</p>
+  {{/if}}
+</div>
