@@ -22,7 +22,13 @@ const BASE_URL = 'http://api.olhovivo.sptrans.com.br/v2.1';
 
 //CONFIGURAÇÕES
     // Configuração do Template Engine
-    app.engine('handlebars', engine({ defaultLayout: 'main' }));
+    app.engine('handlebars', engine({ defaultLayout: 'main',
+      helpers: {
+          json: function(context) {
+            return JSON.stringify(context);
+          }
+        }
+     }));
     app.set('view engine', 'handlebars');
     
 //rota principal de acesso pra a api
@@ -117,7 +123,7 @@ app.get('/PaginaInicial', function(req, res){
 
 //aqui 
 app.get('/Rota', function(req, res) {
-    res.sendFile(__dirname+'/views/PaginaRota.html')
+    res.render('PaginaRota')
 })
 
 //VERIFICACAO POR POSICAO
@@ -219,6 +225,23 @@ app.get('/hora_saida/:codigoLinha', async function(req, res) {
     const response = await axiosInstance.get(`/Posicao/Linha?codigoLinha=${codigoLinha}`);
     const dados = response.data;
     res.render('HoraSaida', { dados });
+  } catch (erro) {
+    console.error('Erro ao consultar a API:', erro.message);
+    res.status(500).send('<h1>Erro ao consultar API</h1><br>' + erro.message);
+  }
+});
+
+app.get('/hora_saida2/:codigoLinha', async function(req, res) {
+  const codigoLinha = req.params.codigoLinha;
+
+  if (!codigoLinha) {
+    return res.status(400).send("Parâmetro 'codigoLinha' é obrigatório.");
+  }
+
+  try {
+    const response = await axiosInstance.get(`/Posicao/Linha?codigoLinha=${codigoLinha}`);
+    const dados = response.data; // hr, vs[]
+    res.render('PaginaRota', { dados });
   } catch (erro) {
     console.error('Erro ao consultar a API:', erro.message);
     res.status(500).send('<h1>Erro ao consultar API</h1><br>' + erro.message);

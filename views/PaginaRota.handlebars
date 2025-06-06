@@ -61,6 +61,11 @@
     button:hover {
       background-color: #005fa3;
     }
+      #map {
+          height: 600px;
+          width: 100%;
+      }
+    </style>
   </style>
 </head>
 <body>
@@ -69,36 +74,81 @@
 
   <!-- Formulário de linha e sentido -->
   <div class="container">
-    <form action="/buscar_termo_sentido" method="POST">
-      <label for="linha">Linha:</label>
-      <input type="text" id="linha" name="linha" placeholder="Bairro..." />
-  
-      <label for="sentido">Sentido:</label>
-      <input type="text" id="sentido" name="sentido" placeholder="Centro..."/>
-      <button type="submit">Buscar por Linha e Sentido</button>
+      <a href="/PaginaInicial"> <button type="submit">Pagina Inicial</button></a>
+      <h2>Mapa de Posição dos Veículos</h2>
+      <div id="map"></div>
     </form>
   </div>  
 
   <!-- Script de Geolocalização -->
-  <script>
-    function pegarLocalizacao() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          function (posicao) {
-            const latitude = posicao.coords.latitude;
-            const longitude = posicao.coords.longitude;
-            alert("Latitude: " + latitude + "\nLongitude: " + longitude);
-          },
-          function (erro) {
-            alert("Erro ao obter localização: " + erro.message);
-          }
-        );
-      } else {
-        alert("Geolocalização não é suportada pelo seu navegador.");
-      }
-    }
-    pegarLocalizacao();
-  </script>
+
+ <script>
+        let latitude_usuario, longitude_usuario;
+
+        function pegarLocalizacao() {
+            if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function (posicao) {
+                latitude_usuario = posicao.coords.latitude;
+                longitude_usuario = posicao.coords.longitude;
+
+                initMap(); // Só chama depois de obter a localização
+                },
+                function (erro) {
+                alert("Erro ao obter localização: " + erro.message);
+                }
+            );
+            } else {
+            alert("Geolocalização não é suportada pelo seu navegador.");
+            }
+        }
+
+        // Dados dos veículos enviados pelo backend (handlebars com escape desativado)
+        const veiculos = {{{json dados.vs}}}; // usa um helper "json" que mostra o conteúdo em JSON puro
+
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 14,
+            center: { lat: -23.682, lng: -46.875 } // centro genérico inicial
+            });
+
+            const bounds = new google.maps.LatLngBounds();
+
+            // Adiciona marcador do usuário
+            if (latitude_usuario && longitude_usuario) {
+            const userLocation = { lat: latitude_usuario, lng: longitude_usuario };
+            new google.maps.Marker({
+                position: userLocation,
+                map: map,
+                title: "Você está aqui",
+                icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+            });
+            bounds.extend(userLocation);
+            }
+
+            // Adiciona marcadores dos veículos
+            veiculos.forEach((veiculo) => {
+            if (veiculo.py && veiculo.px) {
+                const pos = { lat: veiculo.py, lng: veiculo.px };
+                new google.maps.Marker({
+                position: pos,
+                map: map,
+                title: `Prefixo: ${veiculo.p}`,
+                icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+                });
+                bounds.extend(pos);
+            }
+            });
+
+            map.fitBounds(bounds); // Ajusta o mapa para mostrar tudo
+        }
+
+        // Chama a função
+          pegarLocalizacao();
+        </script>
+        <script async
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWr8Ncyvf767ROTTUadRrvUmDCkSvPphg&callback=initMap">
+        </script>
 </body>
 </html>
 
