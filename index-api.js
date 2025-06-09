@@ -15,6 +15,7 @@ import Rota from './models/Rota.js'
 import Relatar from  './models/Relatar.js'
 
 const app = express();
+app.use(express.static('public'));
 const __dirname = path.resolve();
 const PORTA = process.env.PORT || 4200;
 const TOKEN = 'fb6b4c7435eb736fb45aba0c2de04f28bd2ff795c5be10b14ac0b29054584771';
@@ -23,6 +24,7 @@ const BASE_URL = 'http://api.olhovivo.sptrans.com.br/v2.1';
 //CONFIGURAÇÕES
     // Configuração do Template Engine
     app.engine('handlebars', engine({ defaultLayout: 'main',
+      partialsDir:  path.resolve('views/partials'),
       helpers: {
           json: function(context) {
             return JSON.stringify(context);
@@ -80,7 +82,7 @@ app.post('/pesquisar_linha', async function (req, res) {
   try {
     const response = await axiosInstance.get(`/Linha/Buscar?termosBusca=${linha}`);
     const dados = response.data;
-    res.render('PaginaInicial', {dados});
+    res.render('PaginaInicial', {dados , exibirMenu:true});
    //res.send(`<pre>${JSON.stringify(response.data, null, 2)}</pre>`);
   } catch (error) {
     console.error('Erro ao buscar linha:', error.message);
@@ -115,7 +117,7 @@ app.post('/cadastrar', async function(req, res) {
 
 //REDIRECT
 app.get('/PaginaInicial', function(req, res){
-  res.render('PaginaInicial')//, {raw: true, dados: response.data})
+  res.render('PaginaInicial', {exibirMenu:true })//, {raw: true, dados: response.data})
   //res.send(`<h1> SEM ERROR </H1>`)
   //console.log('ENTRANDO AQUIII!!');
   //res.render('PaginaInicial')
@@ -123,7 +125,7 @@ app.get('/PaginaInicial', function(req, res){
 
 //aqui 
 app.get('/Rota', function(req, res) {
-    res.render('PaginaRota')
+    res.render('PaginaRota', {exibirMenu:true })
 })
 
 //VERIFICACAO POR POSICAO
@@ -143,14 +145,14 @@ app.get('/Capelinha', function(req, res) {
         attributes: ['codigo_linha', 'numero_linha'],
         order: [['idonibus', 'DESC']]
     }).then(function(onibus) {
-        res.render('ListaDeOnibus', { onibus: onibus });
+        res.render('ListaDeOnibus', { onibus: onibus, exibirMenu: true});
     }).catch(function(erro) {
         res.send("Erro ao carregar os ônibus: " + erro);
     });
 });
 
 app.get('/Relatar', function(req,res){
-   res.render('Relatar');
+   res.render('Relatar', {exibirMenu:true});
 });
 
 app.get('/RotasDoBanco', async function (req,res){ 
@@ -160,7 +162,7 @@ app.get('/RotasDoBanco', async function (req,res){
     order: [['idrota', 'ASC']] // opcional, você pode mudar para DESC ou outro campo
   })
   .then(function(rotas) {
-    res.render('RotasDoBanco', { rotas: rotas });
+    res.render('RotasDoBanco', { rotas: rotas, exibirMenu: true });
   })
   .catch(function(erro) {
     res.send("Erro ao carregar rotas: " + erro);
