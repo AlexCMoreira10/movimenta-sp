@@ -99,17 +99,17 @@
                 }
             );
             } else {
-            alert("Geolocalização não é suportada pelo seu navegador.");
+              alert("Geolocalização não é suportada pelo seu navegador.");
             }
         }
 
         // Dados dos veículos enviados pelo backend (handlebars com escape desativado)
         const veiculos = {{{json dados.vs}}}; // usa um helper "json" que mostra o conteúdo em JSON puro
-
+        userMaps = {lat: latitude_usuario, lon: longitude_usuario}
         function initMap() {
             const map = new google.maps.Map(document.getElementById("map"), {
             zoom: 14,
-            center: { lat: -23.682, lng: -46.875 } // centro genérico inicial
+            center: userMaps //{ lat: -23.682, lng: -46.875 } // centro genérico inicial
             });
 
             const bounds = new google.maps.LatLngBounds();
@@ -123,7 +123,7 @@
                 title: "Você está aqui",
                 icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
             });
-            bounds.extend(userLocation);
+              bounds.extend(userLocation);
             }
 
             // Adiciona marcadores dos veículos

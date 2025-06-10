@@ -44,8 +44,6 @@ import { CookieJar } from 'tough-cookie';
 import { wrapper } from 'axios-cookiejar-support';
 import { setDefaultAutoSelectFamilyAttemptTimeout } from 'net';
 
-
-
 const cookieJar = new CookieJar();
 
 wrapper(axiosInstance);
@@ -179,7 +177,7 @@ app.post('/buscar_termo', async (req,res) => {
        //res.render('Teste', {dados: response.data} )
     }
     catch (error) {
-        console.error('Vc errou sem burro!!:', error.message);
+        console.error('Vc errou sem burro!!', error.message);
         res.status(500).send('Tu errou faça denovo');
     }
 })
